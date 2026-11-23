@@ -11,20 +11,18 @@
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
-          <tr><th>Foto</th><th>Nombre</th><th>Especialidad</th><th>Estado</th><th class="text-end">Acciones</th></tr>
+          <tr><th>Foto</th><th>Nombre</th><th>Área</th><th>Estado</th><th class="text-end">Acciones</th></tr>
         </thead>
         <tbody>
-          @forelse($items as $s)
+          @forelse($items as $e)
             <tr>
-              <td><img src="{{ asset('images/'.$s['photo']) }}" class="rounded-circle thumb" alt="" onerror="this.src='https://via.placeholder.com/48'"></td>
-              <td class="fw-semibold">{{ $s['name'] }}<br><small class="text-muted fw-normal">{{ $s['title'] }}</small></td>
-              <td>{{ $s['area'] }}</td>
-              <td>
-                <span class="badge {{ $s['active'] ? 'bg-success' : 'bg-secondary' }}">{{ $s['active'] ? 'Visible' : 'Oculto' }}</span>
-              </td>
+              <td><img src="{{ $e->foto_url }}" class="rounded-circle thumb" alt=""></td>
+              <td class="fw-semibold">{{ $e->nombre }}<br><small class="text-muted fw-normal">{{ $e->cargo }}</small></td>
+              <td>{{ $e->area }}</td>
+              <td><span class="badge {{ $e->activo ? 'bg-success' : 'bg-secondary' }}">{{ $e->activo ? 'Visible' : 'Oculto' }}</span></td>
               <td class="text-end">
-                <a href="{{ route('admin.specialists.edit', $s['id']) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                <form action="{{ route('admin.specialists.destroy', $s['id']) }}" method="POST" class="d-inline js-delete">
+                <a href="{{ route('admin.specialists.edit', $e) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <form action="{{ route('admin.specialists.destroy', $e) }}" method="POST" class="d-inline js-delete">
                   @csrf @method('DELETE')
                   <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
                 </form>

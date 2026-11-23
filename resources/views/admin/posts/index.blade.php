@@ -11,18 +11,18 @@
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
-          <tr><th>Imagen</th><th>Título</th><th>Fecha</th><th>Estado</th><th class="text-end">Acciones</th></tr>
+          <tr><th>Imagen</th><th>Título</th><th>Publicado</th><th>Estado</th><th class="text-end">Acciones</th></tr>
         </thead>
         <tbody>
-          @forelse($items as $p)
+          @forelse($items as $a)
             <tr>
-              <td><img src="{{ $p['image'] ? asset('images/'.$p['image']) : 'https://via.placeholder.com/48' }}" class="rounded thumb" alt=""></td>
-              <td class="fw-semibold">{{ $p['title'] }}</td>
-              <td>{{ $p['date'] }}</td>
-              <td><span class="badge {{ $p['status'] === 'published' ? 'bg-success' : 'bg-warning text-dark' }}">{{ $p['status'] === 'published' ? 'Publicado' : 'Borrador' }}</span></td>
+              <td><img src="{{ $a->imagen_url }}" class="rounded thumb" alt=""></td>
+              <td class="fw-semibold">{{ $a->titulo }}</td>
+              <td>{{ $a->publicado_en?->format('d/m/Y') ?? '—' }}</td>
+              <td><span class="badge {{ $a->estado === 'publicado' ? 'bg-success' : 'bg-warning text-dark' }}">{{ $a->estado === 'publicado' ? 'Publicado' : 'Borrador' }}</span></td>
               <td class="text-end">
-                <a href="{{ route('admin.posts.edit', $p['id']) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                <form action="{{ route('admin.posts.destroy', $p['id']) }}" method="POST" class="d-inline js-delete">
+                <a href="{{ route('admin.posts.edit', $a) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <form action="{{ route('admin.posts.destroy', $a) }}" method="POST" class="d-inline js-delete">
                   @csrf @method('DELETE')
                   <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
                 </form>

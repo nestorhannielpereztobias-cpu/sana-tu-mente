@@ -74,33 +74,25 @@
         <p class="text-muted">Conoce a nuestro equipo clínico especializado</p>
       </div>
 
-      <div class="mb-5">
-        <h3 class="h4 fw-bold text-dark border-bottom pb-2 mb-4">
-          <i class="bi bi-clipboard2-pulse text-primary me-2"></i>Psiquiatras
-        </h3>
-        <div class="row g-4">
+      <div class="row g-4 justify-content-center">
+        @forelse($especialistas as $e)
           <div class="col-sm-6 col-lg-4">
-            <div class="card card-specialist h-100 text-center border-0 shadow-sm p-4">
-              <img src="{{ asset('images/doctoraDianaPerez.webp') }}" class="rounded-circle mx-auto mb-3 shadow-sm" alt="Foto Dra. Diana Pérez" onerror="this.src='https://via.placeholder.com/130'">
-              <h5 class="card-title fw-bold mb-1">Dra. Diana Pérez</h5>
-              <p class="text-primary small mb-3">Médico Psiquiatra</p>
-              <a href="{{ route('especialistas.show', 'diana-perez') }}" class="btn btn-outline-primary btn-sm mt-auto">Ver Perfil</a>
+            <div class="card card-specialist card-hover h-100 text-center border-0 shadow-sm p-4">
+              <img src="{{ $e->foto_url }}" class="rounded-circle mx-auto mb-3 shadow-sm" alt="Foto {{ $e->nombre }}">
+              <h5 class="card-title fw-bold mb-1">{{ $e->nombre }}</h5>
+              <p class="text-primary small mb-1">{{ $e->cargo }}</p>
+              @if($e->area)<p class="text-muted small mb-3">{{ $e->area }}</p>@endif
+              <a href="{{ route('especialistas.show', $e->url_amigable) }}" class="btn btn-outline-primary btn-sm mt-auto">Ver Perfil</a>
             </div>
           </div>
-          <div class="col-sm-6 col-lg-4">
-            <div class="card card-specialist h-100 text-center border-0 shadow-sm p-4">
-              <img src="{{ asset('images/doctorAndresBarrera.jpg') }}" class="rounded-circle mx-auto mb-3 shadow-sm" alt="Foto Dr. Andrés Barrera" onerror="this.src='https://via.placeholder.com/130'">
-              <h5 class="card-title fw-bold mb-1">Dr. Andrés Barrera</h5>
-              <p class="text-primary small mb-3">Doctor Sueño</p>
-              <a href="#" class="btn btn-outline-primary btn-sm mt-auto">Ver Perfil</a>
-            </div>
-          </div>
-        </div>
+        @empty
+          <p class="text-center text-muted">Próximamente.</p>
+        @endforelse
       </div>
     </div>
   </section>
 
-  <section id="blog" class="bg-white">
+    <section id="blog" class="bg-white">
     <div class="container">
       <div class="text-center mb-5">
         <h2 class="fw-bold">Blog</h2>
@@ -108,23 +100,49 @@
         <p class="text-muted">Artículos y contenido audiovisual para tu bienestar.</p>
       </div>
       <div class="row g-4">
+        @forelse($articulos as $a)
         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <span class="badge bg-primary-subtle text-primary mb-2">Artículo</span>
-              <h5 class="card-title fw-bold">Guía básica de Mindfulness</h5>
-              <p class="card-text text-muted small">Técnicas sencillas para reducir el estrés en tu rutina diaria.</p>
-            </div>
+        <div class="card card-hover h-100 border-0 shadow-sm">
+         @if($a->imagen)
+            <img src="{{ $a->imagen_url }}" class="card-img-top" style="height:180px;object-fit:cover" alt="{{ $a->titulo }}">
+          @endif
+           <div class="card-body d-flex flex-column">
+              <span class="badge bg-primary-subtle text-primary mb-2 align-self-start">Artículo</span>
+              <h5 class="card-title fw-bold">{{ $a->titulo }}</h5>
+              <p class="card-text text-muted small">{{ \Illuminate\Support\Str::limit(strip_tags($a->contenido), 130) }}</p>
+              <a href="{{ route('articulos.show', $a->url_amigable) }}" class="btn btn-outline-primary btn-sm mt-auto align-self-start stretched-link">Leer más</a>
           </div>
-        </div>
+      </div>
+  </div>
+        @empty
+          <p class="text-center text-muted">Próximamente publicaremos artículos.</p>
+        @endforelse
       </div>
     </div>
   </section>
 
   <section id="escalas" class="bg-light">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-3">Evaluate</h2>
-      <p class="text-muted">Pruebas interactivas de tamizaje psicológico y medicina del sueño.</p>
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Evaluate</h2>
+        <div class="mx-auto bg-primary mb-3" style="height: 3px; width: 60px;"></div>
+        <p class="text-muted">Pruebas interactivas de tamizaje psicológico y medicina del sueño.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        @forelse($escalas as $e)
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-hover h-100 border-0 shadow-sm text-center p-4">
+              <div class="text-primary fs-1 mb-2"><i class="bi bi-clipboard2-check"></i></div>
+              <h5 class="fw-bold">{{ $e->nombre }}</h5>
+              @if($e->descripcion)<p class="text-muted small">{{ $e->descripcion }}</p>@endif
+              <p class="small text-muted mb-3">{{ $e->preguntas_count }} preguntas</p>
+              <a href="{{ route('escalas.show', $e) }}" class="btn btn-primary btn-sm mt-auto">Comenzar</a>
+            </div>
+          </div>
+        @empty
+          <p class="text-center text-muted">Próximamente habrá evaluaciones disponibles.</p>
+        @endforelse
+      </div>
     </div>
   </section>
 
